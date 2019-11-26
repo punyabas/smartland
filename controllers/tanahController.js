@@ -2,7 +2,7 @@ const tanah = require('express').Router();
 const JOI = require('joi');
 var fs = require('fs');
 var path = require('path');
-var LoginRequired = require('../helper/LoginRequired');
+var LoginRequired = require('../helper/loginRequired');
 
 //const jwt = require('jsonwebtoken');
 //const LoginRequired = require('../helper/LoginRequired');
