@@ -144,14 +144,14 @@ async function getTanahQuery(tag, hargamin, hargamaks, luasmin, luasmaks, alamat
          if (hargamaks)
              builder.where('harga', '<', hargamaks);
 
-         if (hargamaks)
-            builder.where('harga', hargamaks);
+         // if (hargamaks)
+         //    builder.where('harga', hargamaks);
 
          if (hargamin)
              builder.where('harga', '>', hargamin);
          
-         if (hargamin)
-            builder.where('harga', hargamin);
+         // if (hargamin)
+         //    builder.where('harga', hargamin);
      
          if (luasmaks)
              builder.where('luas', '<' , luasmaks);
@@ -162,8 +162,8 @@ async function getTanahQuery(tag, hargamin, hargamaks, luasmin, luasmaks, alamat
          if (luasmin)
              builder.where('luas', '>', luasmin);
 
-         if (luasmin)
-            builder.where('luas', luasmin);
+         // if (luasmin)
+         //    builder.where('luas', luasmin);
      
          if (alamat)
              builder.where({alamat:alamat});
