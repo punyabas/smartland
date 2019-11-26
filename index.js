@@ -2,6 +2,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
+var cors = require('cors');
 
 
 
@@ -15,6 +16,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.json());
 // For multi form data
 ;
+
+app.use(cors());
+app.options('*', cors());
 
 app.use(function(req, res, next){
   res.setHeader('X-Powered-By', '');
