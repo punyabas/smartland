@@ -1,3 +1,5 @@
+const USER_AUTH_SECRET = process.env.USER_AUTH_SECRET || 'asfdaskdjcruasfjasd';
+
 const DATABASE = {
     host: 'localhost',
     port: '3306',

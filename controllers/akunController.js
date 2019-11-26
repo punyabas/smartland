@@ -1,7 +1,7 @@
 const akun = require('express').Router();
 const JOI = require('joi');
 const jwt = require('jsonwebtoken');
-//const LoginRequired = require('../helper/LoginRequired');
+const LoginRequired = require('../helper/LoginRequired');
 var fs = require('fs');
 var path = require('path');
 
@@ -92,6 +92,44 @@ akun.post('/register', function(req, res, next){
     
     );
 
+    Akun.post('/login', function(req, res, next){
+      const Schema = JOI.object().keys({
+         username: JOI.string().required(),
+         password: JOI.string().required()
+      });
+   
+      JOI.validate(req.body, Schema).then(result => {
+         next();
+      }).catch(error => {
+         res.status(400).send({
+            success: false,
+            error: error.message
+         });
+      });
+   }, async function(req, res, next){
+      try{
+         var account = await AkunAccount.getByUsername(req.body.username);
+      }catch(error){
+         next(error);
+      }
+   
+      if(!account){
+         return res.status(400).send({ success: false, error: 'username_not_valid'})
+      }
+   
+      if(!bcrypt.compareSync(req.body.password, account.password)){
+         return res.status(400).send({ success: false, error: 'passowrd_not_match' });
+      }
+   
+      var payload = { uid: account.uid_agent };
+      var accessToken = jwt.sign(payload, USER_AUTH, { expiresIn: '2 hours' });
+      res.send({
+         success: true,
+         accestoken: accessToken
+      });
+   });
+
+   akun.use(LoginRequired.access);
     akun.post('/uplodaphoto', upload.single('image'), async function(req, res, next){  
       try{
 

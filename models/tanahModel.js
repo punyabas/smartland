@@ -62,6 +62,16 @@ async function insert(luas, lat, lon, harga, deskripsi, tag, alamat, id_akun ){
      return Promise.resolve(result);
  }
 
+ async function getTanahByLoc(Loc){
+   try{
+       var result = await database(TABLE_NAME).where({ alamat: Loc }).orderBy('waktu_daftar');
+    }catch(error){
+       return Promise.reject(error);
+    }
+ 
+    return Promise.resolve(result);
+}
+
  //get tanah all
  async function getTanahAll(){
     try{
@@ -103,9 +113,53 @@ async function getTanahByUID(tanid){
 }
 
 
-async function getTanahQuery(){
+async function update(luas, lat, lon, harga, deskripsi, tag, alamat, id_tanah ){
+ 
+   var account = {
+       luas : luas,
+       lat : lat,
+       lon : lon,
+       harga : harga,
+       deskripsi : deskripsi,
+       tag : tag,
+       alamat : alamat
+   };
+
+   try{
+      var result = await database(TABLE_NAME).where({uid_tanah:id_tanah}).update(account);
+   }catch(error){
+      return Promise.reject(error);
+   }
+
+   return Promise.resolve(result);
+}
+
+async function getTanahQuery(tag, hargamin, hargamaks, luasmin, luasmaks, alamat){
     try{
-       var result = await select().database(TABLE_NAME).where({ id_bank: id_bank }).orderBy('waktu_daftar');
+       var result = await select().database(TABLE_NAME).where((builder) => {
+
+         if (tag)
+             builder.where({tag:tag});
+     
+         if (hargamaks)
+             builder.where('harga', '<', hargamaks);
+
+         if (hargamin)
+             builder.where('harga', '>', hargamin);
+     
+         if (luasmaks)
+             builder.where('harga', '<', luasmaks);
+
+         if (luasmaks)
+             builder.where('harga', '>', luasmin);
+     
+         if (alamat)
+             builder.whereNull({alamat:alamat});
+     
+         // so on..
+     
+     })
+       .orderBy('waktu_daftar');
     }catch(error){
        return Promise.reject(error);
     }
@@ -114,4 +168,4 @@ async function getTanahQuery(){
  }
 
 
-module.exports={ insert, insertPhoto, insertSertifikat, getTanahByID, getTanahAll, getTanahByUID}
+module.exports={ insert, insertPhoto, insertSertifikat, getTanahByID, getTanahAll, getTanahByUID, update, getTanahByLoc, getTanahQuery}
