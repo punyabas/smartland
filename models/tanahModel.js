@@ -136,7 +136,7 @@ async function update(luas, lat, lon, harga, deskripsi, tag, alamat, id_tanah ){
 
 async function getTanahQuery(tag, hargamin, hargamaks, luasmin, luasmaks, alamat){
     try{
-       var result = await select().database(TABLE_NAME).where((builder) => {
+       var result = await database(TABLE_NAME).where((builder) => {
 
          if (tag)
              builder.where({tag:tag});
@@ -144,19 +144,29 @@ async function getTanahQuery(tag, hargamin, hargamaks, luasmin, luasmaks, alamat
          if (hargamaks)
              builder.where('harga', '<', hargamaks);
 
+         if (hargamaks)
+            builder.where('harga', hargamaks);
+
          if (hargamin)
              builder.where('harga', '>', hargamin);
+         
+         if (hargamin)
+            builder.where('harga', hargamin);
      
          if (luasmaks)
-             builder.where('harga', '<', luasmaks);
+             builder.where('luas', '<' , luasmaks);
 
          if (luasmaks)
-             builder.where('harga', '>', luasmin);
+            builder.where('luas', luasmaks);
+
+         if (luasmin)
+             builder.where('luas', '>', luasmin);
+
+         if (luasmin)
+            builder.where('luas', luasmin);
      
          if (alamat)
-             builder.whereNull({alamat:alamat});
-     
-         // so on..
+             builder.where({alamat:alamat});
      
      })
        .orderBy('waktu_daftar');

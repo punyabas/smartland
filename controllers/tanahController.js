@@ -132,12 +132,12 @@ JOI.validate(req.body, Schema).then(result => {
 tanah.get('/getQuery', async function(req, res, next){    
       
    const Schema = JOI.object().keys({
-      tag:JOI.string().trim().required(),
-      hargamin:JOI.string().trim().required(),
-      hargamaks:JOI.string().trim().required(),
-      luasmin:JOI.string().trim().required(),
-      luasmaks:JOI.string().trim().required(),
-      alamat:JOI.string().trim().required()
+      tag:JOI.required(),
+      hargamin:JOI.required(),
+      hargamaks:JOI.required(),
+      luasmin:JOI.required(),
+      luasmaks:JOI.required(),
+      alamat:JOI.required(),
 });
 
 JOI.validate(req.body, Schema).then(result => {
