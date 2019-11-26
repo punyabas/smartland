@@ -156,5 +156,17 @@ akun.post('/uploadphoto', upload.single('image'), async function(req, res, next)
      }
    );
 
+   akun.get('/getByID', async function(req, res, next){    
+       
+      try{
+        var result = await AkunAccount.getByUID(req.agent.uid);
+        return res.send({ success: true, hasil: result });
+   
+    }catch(error){
+       console.log(error);
+       return res.status(400).send({ success: false, error: error.message });
+    }
+   })
+
 
  module.exports = akun;

@@ -5,8 +5,6 @@ const app = express();
 var cors = require('cors');
 
 
-
-
 const akun = require('./controllers/akunController');
 const tanah = require('./controllers/tanahController');
 

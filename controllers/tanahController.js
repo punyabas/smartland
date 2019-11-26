@@ -171,8 +171,7 @@ tanah.post('/register', function(req, res, next){
         harga: JOI.string().trim().required(),
         deskripsi : JOI.string().trim().required(),
         tag : JOI.string().trim().required(),
-        alamat : JOI.string().trim().required(),
-        id_akun : JOI.string().trim().required()
+        alamat : JOI.string().trim().required()
      });
 
 
@@ -187,7 +186,7 @@ tanah.post('/register', function(req, res, next){
     }, async function(req, res, next){
     
         try{
-           var account = await TanahAccount.insert(req.body.luas, req.body.lat, req.body.lon, req.body.harga, req.body.deskripsi, req.body.tag, req.body.alamat, req.body.id_akun  );
+           var account = await TanahAccount.insert(req.body.luas, req.body.lat, req.body.lon, req.body.harga, req.body.deskripsi, req.body.tag, req.body.alamat, req.agent.uid  );
         }catch(error){
            console.log(error);
            return res.status(400).send({ success: false, error: error.message });
@@ -198,10 +197,22 @@ tanah.post('/register', function(req, res, next){
          });
     })
 
-    tanah.post('/uplodaphoto', upload.single('image'), async function(req, res, next){  
+    tanah.get('/getByAkun', async function(req, res, next){    
+       
+      try{
+        var result = await TanahAccount.getTanahByID(req.agent.uid);
+        return res.send({ success: true, hasil: result });
+   
+    }catch(error){
+       console.log(error);
+       return res.status(400).send({ success: false, error: error.message });
+    }
+   })
+
+    tanah.post('/uploadphoto', upload.single('image'), async function(req, res, next){  
         try{
   
-           var id = req.body.akun;
+           var id = req.body.id;
            //var img = fs.readFileSync(req.file.path);
           var img= fs.readFileSync(req.file.path);
           var haha = img.toString('base64');
@@ -220,10 +231,10 @@ tanah.post('/register', function(req, res, next){
        }
      );
 
-     tanah.post('/uplodasertif', upload.single('image'), async function(req, res, next){  
+     tanah.post('/uploadsertif', upload.single('image'), async function(req, res, next){  
         try{
   
-           var id = req.body.akun;
+           var id = req.body.id;
            //var img = fs.readFileSync(req.file.path);
           var img= fs.readFileSync(req.file.path);
           var haha = img.toString('base64');
