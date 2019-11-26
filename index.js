@@ -18,8 +18,11 @@ app.use(bodyParser.json());
 
 app.use(function(req, res, next){
   res.setHeader('X-Powered-By', '');
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
+
 
 app.use('/public', express.static(__dirname + '/public'));
 
