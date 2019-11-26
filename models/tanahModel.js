@@ -11,8 +11,7 @@ async function insert(luas, lat, lon, harga, deskripsi, tag, alamat, id_akun ){
         deskripsi : deskripsi,
         tag : tag,
         alamat : alamat,
-        id_akun : id_akun,
-        waktu_daftar: Date.now()
+        id_akun : id_akun
     };
  
     try{
