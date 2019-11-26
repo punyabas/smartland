@@ -1,5 +1,6 @@
 const USER_AUTH = require('../config').USER_AUTH_SECRET;
 const jwt = require('jsonwebtoken');
+const AkunAccount = require("../models/akunModel")
 
 
 async function access(req, res, next) {
@@ -10,7 +11,7 @@ async function access(req, res, next) {
    }
    try{
       var decodedAuth = jwt.verify(token, USER_AUTH);
-      var agent= await AgentAccount.getAccountByUid(decodedAuth.uid);
+      var agent= await AkunAccount.getByUID(decodedAuth.uid);
       if(!agent){ 
          return res.status(400).send({ success: false, error: "agent not valid" })
        }

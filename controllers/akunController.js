@@ -4,6 +4,10 @@ const jwt = require('jsonwebtoken');
 const LoginRequired = require('../helper/LoginRequired');
 var fs = require('fs');
 var path = require('path');
+const bcrypt = require('bcryptjs');
+
+const USER_AUTH = require('../config').USER_AUTH_SECRET;
+
 
 const AkunAccount = require("../models/akunModel")
 var multer  = require('multer');
@@ -78,7 +82,6 @@ akun.post('/register', function(req, res, next){
               //throw new Error('username_used');
               return res.status(400).send({ success: false, error: 'email_used' });
            }
-           next()
         }catch(error){
            console.log(error);
            return res.status(400).send({ success: false, error: error.message });
@@ -92,7 +95,7 @@ akun.post('/register', function(req, res, next){
     
     );
 
-    Akun.post('/login', function(req, res, next){
+    akun.post('/login', function(req, res, next){
       const Schema = JOI.object().keys({
          username: JOI.string().required(),
          password: JOI.string().required()
@@ -110,7 +113,7 @@ akun.post('/register', function(req, res, next){
       try{
          var account = await AkunAccount.getByUsername(req.body.username);
       }catch(error){
-         next(error);
+         return res.status(400).send({ success: false, error: error.message });
       }
    
       if(!account){
@@ -121,7 +124,7 @@ akun.post('/register', function(req, res, next){
          return res.status(400).send({ success: false, error: 'passowrd_not_match' });
       }
    
-      var payload = { uid: account.uid_agent };
+      var payload = { uid: account.uid_akun };
       var accessToken = jwt.sign(payload, USER_AUTH, { expiresIn: '2 hours' });
       res.send({
          success: true,
@@ -129,17 +132,18 @@ akun.post('/register', function(req, res, next){
       });
    });
 
-   akun.use(LoginRequired.access);
-    akun.post('/uplodaphoto', upload.single('image'), async function(req, res, next){  
+akun.use(LoginRequired.access);
+
+akun.post('/uploadphoto', upload.single('image'), async function(req, res, next){  
       try{
 
-         var id = req.body.akun;
+         var username = req.body.akun;
          //var img = fs.readFileSync(req.file.path);
         var img= fs.readFileSync(req.file.path);
         var haha = img.toString('base64');
          //var image = req.file;
          //var wow = img.toString('base64')
-       var result = await AkunAccount.insertPhoto(haha, id);
+       var result = await AkunAccount.insertPhoto(haha, username);
       }catch(error){
          console.log(error);
          return res.status(400).send({ success: false, error: error.message });

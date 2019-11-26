@@ -32,6 +32,16 @@ async function insert(username, password, email, handphone){
     return Promise.resolve(result[0]);
  }
 
+ async function getByUID(id_akun){
+   try{
+      var result = await database(TABLE_NAME).where({ uid_akun: id_akun });
+   }catch(error){
+      return Promise.reject(error);
+   }
+
+   return Promise.resolve(result[0]);
+}
+
  async function getByHandphone(handphone){
    try{
       var result = await database(TABLE_NAME).where({ handphone: handphone });
@@ -52,13 +62,13 @@ async function getByEmail(email){
    return Promise.resolve(result[0]);
 }
 
-async function insertPhoto(image, akun_id){
+async function insertPhoto(image, user){
    var account = {    
       photo: image
    };
 
    try{
-      var result = await database(TABLE_NAME).where({uid_akun:akun_id}).update(account);
+      var result = await database(TABLE_NAME).where({username:user}).update(account);
    }catch(error){
       return Promise.reject(error);
    }
@@ -66,4 +76,4 @@ async function insertPhoto(image, akun_id){
    return Promise.resolve(result);
 }
 
-module.exports={getByEmail, getByUsername, getByHandphone, insert, insertPhoto}
+module.exports={getByEmail, getByUsername, getByHandphone, insert, insertPhoto, getByUID}
