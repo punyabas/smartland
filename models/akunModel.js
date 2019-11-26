@@ -62,13 +62,13 @@ async function getByEmail(email){
    return Promise.resolve(result[0]);
 }
 
-async function insertPhoto(image, user){
+async function insertPhoto(image, id){
    var account = {    
       photo: image
    };
 
    try{
-      var result = await database(TABLE_NAME).where({username:user}).update(account);
+      var result = await database(TABLE_NAME).where({uid_akun:id}).update(account);
    }catch(error){
       return Promise.reject(error);
    }

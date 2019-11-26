@@ -214,7 +214,7 @@ tanah.post('/register', function(req, res, next){
   
            var id = req.body.id;
            //var img = fs.readFileSync(req.file.path);
-          var img= fs.readFileSync(req.file.path);
+          var img= fs.readFileSync("./"+req.file.path);
           var haha = img.toString('base64');
            //var image = req.file;
            //var wow = img.toString('base64')
@@ -236,7 +236,7 @@ tanah.post('/register', function(req, res, next){
   
            var id = req.body.id;
            //var img = fs.readFileSync(req.file.path);
-          var img= fs.readFileSync(req.file.path);
+          var img= fs.readFileSync("./"+req.file.path);
           var haha = img.toString('base64');
            //var image = req.file;
            //var wow = img.toString('base64')
