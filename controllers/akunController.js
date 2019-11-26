@@ -132,17 +132,15 @@ akun.post('/register', function(req, res, next){
       });
    });
 
-akun.use(LoginRequired.access);
-
-akun.post('/uploadphoto', upload.single('image'), async function(req, res, next){  
+   akun.post('/uploadphoto', upload.single('image'), async function(req, res, next){  
       try{
 
-         //var img = fs.readFileSync(req.file.path);
+         var username = req.body.username;
         var img= fs.readFileSync("./"+req.file.path);
         var haha = img.toString('base64');
          //var image = req.file;
          //var wow = img.toString('base64')
-       var result = await AkunAccount.insertPhoto(haha, req.agent.uid);
+       var result = await AkunAccount.insertPhoto(haha, username);
       }catch(error){
          console.log(error);
          return res.status(400).send({ success: false, error: error.message });
@@ -154,6 +152,9 @@ akun.post('/uploadphoto', upload.single('image'), async function(req, res, next)
     });
      }
    );
+
+akun.use(LoginRequired.access);
+
 
    akun.get('/getByID', async function(req, res, next){    
        

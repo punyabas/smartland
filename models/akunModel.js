@@ -68,7 +68,7 @@ async function insertPhoto(image, id){
    };
 
    try{
-      var result = await database(TABLE_NAME).where({uid_akun:id}).update(account);
+      var result = await database(TABLE_NAME).where({username:id}).update(account);
    }catch(error){
       return Promise.reject(error);
    }
