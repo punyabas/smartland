@@ -78,7 +78,7 @@ async function insert(luas, lat, lon, harga, deskripsi, tag, alamat, id_akun, ju
  //get tanah all
  async function getTanahAll(){
     try{
-       var result = await database(TABLE_NAME).orderBy('waktu_daftar');
+       var result = await database(TABLE_NAME).orderBy('waktu_daftar').innerJoin('akun', 'tanah.id_akun', '=', 'akun.uid_akun');
     }catch(error){
        return Promise.reject(error);
     }
@@ -172,7 +172,8 @@ async function getTanahQuery(tag, hargamin, hargamaks, luasmin, luasmaks, alamat
              builder.where({alamat:alamat});
      
      })
-       .orderBy('waktu_daftar');
+       .orderBy('waktu_daftar')
+       .innerJoin('akun', 'tanah.id_akun', '=', 'akun.uid_akun');
     }catch(error){
        return Promise.reject(error);
     }
