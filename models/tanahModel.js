@@ -24,13 +24,13 @@ async function insert(luas, lat, lon, harga, deskripsi, tag, alamat, id_akun, ju
     return Promise.resolve(result);
  }
 
- async function insertPhoto(image, akun_id){
+ async function insertPhoto(image, judul){
     var account = {    
        photo: image
     };
  
     try{
-       var result = await database(TABLE_NAME).where({uid_tanah:akun_id}).update(account);
+       var result = await database(TABLE_NAME).where({judul:judul}).update(account);
     }catch(error){
        return Promise.reject(error);
     }
@@ -38,13 +38,13 @@ async function insert(luas, lat, lon, harga, deskripsi, tag, alamat, id_akun, ju
     return Promise.resolve(result);
  }
 
- async function insertSertifikat(image, akun_id){
+ async function insertSertifikat(image, judul){
     var account = {    
        sertifikat: image
     };
  
     try{
-       var result = await database(TABLE_NAME).where({uid_tanah:akun_id}).update(account);
+       var result = await database(TABLE_NAME).where({judul:judul}).update(account);
     }catch(error){
        return Promise.reject(error);
     }
