@@ -1,7 +1,7 @@
 const database = require('./index').database;
 const TABLE_NAME = 'tanah';
 
-async function insert(luas, lat, lon, harga, deskripsi, tag, alamat, id_akun ){
+async function insert(luas, lat, lon, harga, deskripsi, tag, alamat, id_akun, judul ){
  
     var account = {
         luas : luas,
@@ -11,7 +11,8 @@ async function insert(luas, lat, lon, harga, deskripsi, tag, alamat, id_akun ){
         deskripsi : deskripsi,
         tag : tag,
         alamat : alamat,
-        id_akun : id_akun
+        id_akun : id_akun,
+        judul : judul
     };
  
     try{
@@ -64,7 +65,8 @@ async function insert(luas, lat, lon, harga, deskripsi, tag, alamat, id_akun ){
 
  async function getTanahByLoc(Loc){
    try{
-       var result = await database(TABLE_NAME).where({ alamat: Loc }).orderBy('waktu_daftar');
+       var result = await database(TABLE_NAME).where({ alamat: Loc }).innerJoin('akun', 'tanah.id_akun', '=', 'akun.uid_akun').orderBy('waktu_daftar');
+       //table('users').innerJoin('accounts', 'users.id', '=', 'accounts.user_id')
     }catch(error){
        return Promise.reject(error);
     }

@@ -42,7 +42,7 @@ function distancek(lat1, lat2, lon1, lon2){
   }
 
   
-  tanah.get('/getLatLon', async function(req, res, next){    
+  tanah.post('/getLatLon', async function(req, res, next){    
       
       const Schema = JOI.object().keys({
       lat: JOI.string().trim().required(),
@@ -104,7 +104,7 @@ function distancek(lat1, lat2, lon1, lon2){
   
 });
 
-tanah.get('/getByCity', async function(req, res, next){    
+tanah.post('/getByCity', async function(req, res, next){    
       
    const Schema = JOI.object().keys({
    city: JOI.string().trim().required(),
@@ -129,7 +129,7 @@ JOI.validate(req.body, Schema).then(result => {
  }
 })
 
-tanah.get('/getQuery', async function(req, res, next){    
+tanah.post('/getQuery', async function(req, res, next){    
       
    const Schema = JOI.object().keys({
       tag:JOI.required(),
@@ -171,7 +171,8 @@ tanah.post('/register', function(req, res, next){
         harga: JOI.string().trim().required(),
         deskripsi : JOI.string().trim().required(),
         tag : JOI.string().trim().required(),
-        alamat : JOI.string().trim().required()
+        alamat : JOI.string().trim().required(),
+        judul : JOI.string().trim().required()
      });
 
 
@@ -186,7 +187,7 @@ tanah.post('/register', function(req, res, next){
     }, async function(req, res, next){
     
         try{
-           var account = await TanahAccount.insert(req.body.luas, req.body.lat, req.body.lon, req.body.harga, req.body.deskripsi, req.body.tag, req.body.alamat, req.agent.uid  );
+           var account = await TanahAccount.insert(req.body.luas, req.body.lat, req.body.lon, req.body.harga, req.body.deskripsi, req.body.tag, req.body.alamat, req.agent.uid, req.body.judul );
         }catch(error){
            console.log(error);
            return res.status(400).send({ success: false, error: error.message });
