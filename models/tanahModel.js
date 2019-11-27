@@ -65,7 +65,7 @@ async function insert(luas, lat, lon, harga, deskripsi, tag, alamat, id_akun, ju
 
  async function getTanahByLoc(Loc){
    try{
-       var result = await database(TABLE_NAME).where({ alamat: Loc });
+       var result = await database(TABLE_NAME).where({ alamat: Loc }).innerJoin('akun', 'tanah.id_akun', '=', 'akun.uid_akun');
        //.innerJoin('akun', 'tanah.id_akun', '=', 'akun.uid_akun')
        //table('users').innerJoin('accounts', 'users.id', '=', 'accounts.user_id')
     }catch(error){
